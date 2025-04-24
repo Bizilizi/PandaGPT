@@ -137,7 +137,7 @@ def process_video(
                 detected.append(cl)
             all_responses.append(f"{cl}: {response}")
             
-        response = "\n".join(all_responses)
+        response = ",".join(all_responses)
     else:
         raise ValueError(f"Invalid prompt mode: {prompt_mode}. Supported modes: 'single', 'multi'")
 

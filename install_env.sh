@@ -20,3 +20,11 @@ huggingface-cli download lmsys/vicuna-13b-delta-v0 --local-dir pretrained_ckpt/v
 huggingface-cli download openllmplayground/pandagpt_7b_max_len_1024 --local-dir pretrained_ckpt/pandagpt_ckpt/7b --local-dir-use-symlinks False
 huggingface-cli download openllmplayground/pandagpt_13b_max_len_256 --local-dir pretrained_ckpt/pandagpt_ckpt/13b --local-dir-use-symlinks False
 
+# Check if mamba command exists and install squashfs
+if command -v mamba &> /dev/null; then
+    echo "Installing squashfs using mamba..."
+    mamba install conda-forge::squashfuse
+else
+    echo "Mamba not found, installing squashfs using conda..."
+    conda install conda-forge::squashfuse
+fi

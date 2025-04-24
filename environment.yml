@@ -174,7 +174,6 @@ dependencies:
       - uc-micro-py==1.0.3
       - urllib3==2.3.0
       - uvicorn==0.34.0
-      - wandb==0.19.8
       - wavedrom==2.0.3.post3
       - wcwidth==0.2.13
       - websockets==11.0.3
