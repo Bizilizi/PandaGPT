@@ -68,11 +68,12 @@ def process_video(
         video_id = video_id.replace(".mp4", ".wav")
         audio_paths = [os.path.join(dataset_path, "audio", video_id)]
     elif processor == "v":
+        video_id = video_id.replace(".mp4", "")
         image_paths = [
             os.path.join(
                 frames_dataset_path,
                 "sample_frames",
-                f"frame_{i}.jpg",
+                f"frame_{i}",
                 f"{video_id}.jpg",
             )
             for i in range(10)
@@ -149,9 +150,9 @@ def get_model():
     # init the model
     args = {
         "model": "openllama_peft",
-        "imagebind_ckpt_path": "../pretrained_ckpt/imagebind_ckpt",
-        "vicuna_ckpt_path": "../pretrained_ckpt/vicuna_ckpt/7b_v0",
-        "delta_ckpt_path": "../pretrained_ckpt/pandagpt_ckpt/7b/pytorch_model.pt",
+        "imagebind_ckpt_path": "pretrained_ckpt/imagebind_ckpt",
+        "vicuna_ckpt_path": "pretrained_ckpt/vicuna_ckpt/7b_v0",
+        "delta_ckpt_path": "pretrained_ckpt/pandagpt_ckpt/7b/pytorch_model.pt",
         "stage": 2,
         "max_tgt_len": 128,
         "lora_r": 32,
