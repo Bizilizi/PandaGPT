@@ -10,6 +10,8 @@ mkdir pretrained_ckpt/vicuna_delta_ckpt/7b -p
 mkdir pretrained_ckpt/vicuna_delta_ckpt/13b -p
 
 # download pretrained models
+# downlad imagebind
+wget https://dl.fbaipublicfiles.com/imagebind/imagebind_huge.pth -O pretrained_ckpt/imagebind_ckpt/imagebind_huge.pth
 # llama
 huggingface-cli download huggyllama/llama-7b --local-dir pretrained_ckpt/llama_ckpt/7b --local-dir-use-symlinks False
 huggingface-cli download huggyllama/llama-13b --local-dir pretrained_ckpt/llama_ckpt/13b --local-dir-use-symlinks False
