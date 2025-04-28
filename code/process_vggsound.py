@@ -9,7 +9,7 @@ import argparse
 from tqdm.auto import tqdm, trange
 from model.openllama import OpenLLAMAPEFTModel
 
-CLASSES = pd.read_csv("../../../data/audio_classes.csv")["display_name"].tolist()
+CLASSES = pd.read_csv("../../data/audio_classes.csv")["display_name"].tolist()
 
 
 def predict(
@@ -115,7 +115,7 @@ def process_video(
             if cl in response.lower():
                 detected.append(cl)
                 
-        response = response
+        response = response.replace("\n", "\\n")
         
     elif prompt_mode == "multi":
         all_responses = []
