@@ -237,7 +237,7 @@ def main():
     parser.add_argument(
         "--page",
         type=int,
-        default=1,
+        default=0,
         help="Page number to process",
     )
     parser.add_argument(
