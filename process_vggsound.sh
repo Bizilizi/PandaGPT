@@ -1,3 +1,4 @@
+#!/bin/bash
 #SBATCH --job-name="jobid:v-1882js8"
 #SBATCH --nodes=16
 #SBATCH --ntasks=64
