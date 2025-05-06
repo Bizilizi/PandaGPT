@@ -42,8 +42,6 @@ SRUN_ARGS=" \
     --wait=60 \
     --kill-on-bad-exit=1 \
     --jobid $SLURM_JOB_ID \
-    --exclusive\
-     --ntasks=1 \
     "
 # Run the script on each node, assigning each task to a different GPU
 srun $SRUN_ARGS bash -c "$CMD"
