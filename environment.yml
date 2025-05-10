@@ -128,7 +128,7 @@ dependencies:
       - psutil==7.0.0
       - ptyprocess==0.7.0
       - pure-eval==0.2.3
-      - py-cpuinfo==9.0.0
+      - py-cpuinfo  ==9.0.0
       - pydantic==1.10.21
       - pydantic-core==2.33.0
       - pydub==0.25.1

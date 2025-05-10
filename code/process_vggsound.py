@@ -288,27 +288,36 @@ def main():
     ]
     args.output_csv = args.output_csv.replace(".csv", f"{args.prompt_mode}_page_{args.page}.csv")
 
+    if os.path.exists(args.output_csv):
+        already_processed = pd.read_csv(args.output_csv)
+        already_processed = set(already_processed["video_id"].tolist())
+        page_videos = [vid for vid in page_videos if vid not in already_processed]
+        
     predictions = {}
     responses = {}
     
     for video_id in tqdm(page_videos, desc="Processing Videos"):
-        detected_classes, response = process_video(
-            model=model,
-            dataset_path=args.dataset_path,
-            frames_dataset_path=args.frames_dataset_path,
-            video_id=video_id,
-            temperature=args.temperature,
+        try:
+            detected_classes, response = process_video(
+                model=model,
+                dataset_path=args.dataset_path,
+                frames_dataset_path=args.frames_dataset_path,
+                video_id=video_id,
+                temperature=args.temperature,
             top_p=args.top_p,
             max_output_tokens=args.max_output_tokens,
             processor=args.modality,
             prompt=args.prompt,
             prompt_mode=args.prompt_mode,
-        )
-        predictions[video_id] = detected_classes
-        responses[video_id] = response
-        
-        # Write predictions to CSV.
-        write_predictions_csv(predictions, responses, args.output_csv)
+            )
+            predictions[video_id] = detected_classes
+            responses[video_id] = response
+            
+            # Write predictions to CSV.
+            write_predictions_csv(predictions, responses, args.output_csv)
+        except Exception as e:
+            print(f"Error processing video {video_id}: {traceback.format_exc()}")
+            continue
 
 
 if __name__ == "__main__":
