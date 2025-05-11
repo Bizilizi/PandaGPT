@@ -304,11 +304,11 @@ def main():
                 frames_dataset_path=args.frames_dataset_path,
                 video_id=video_id,
                 temperature=args.temperature,
-            top_p=args.top_p,
-            max_output_tokens=args.max_output_tokens,
-            processor=args.modality,
-            prompt=args.prompt,
-            prompt_mode=args.prompt_mode,
+                top_p=args.top_p,
+                max_output_tokens=args.max_output_tokens,
+                processor=args.modality,
+                prompt=args.prompt,
+                prompt_mode=args.prompt_mode,
             )
             predictions[video_id] = detected_classes
             responses[video_id] = response
