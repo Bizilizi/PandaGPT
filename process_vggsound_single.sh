@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4,mcml-hgx-h100-94x4
+#SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4
 #SBATCH --qos=mcml
 #SBATCH --mem=48G
 #SBATCH --time=48:00:00
