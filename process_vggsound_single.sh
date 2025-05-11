@@ -30,9 +30,11 @@ mkdir -p /tmp/akoepke/$SLURM_JOB_ID/vggsound
 mkdir -p /tmp/akoepke/$SLURM_JOB_ID/cav-mae
 mkdir -p $MCMLSCRATCH/datasets/$SLURM_JOB_ID
 
+echo "Copying VGGsound"
 rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/vggsound_test.squashfs
 rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/cav-mae-test.squashfs
 
+echo "Copying VGGsound to job directory"
 rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/vggsound_test.squashfs
 rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/cav-mae-test.squashfs
 
