@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --partition=mcml-dgx-a100-40x8
+#SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4,mcml-hgx-h100-94x4
 #SBATCH --qos=mcml
 #SBATCH --mem=48G
 #SBATCH --time=48:00:00
@@ -20,16 +20,24 @@ nvidia-smi
 cleanup () {
     fusermount -u /tmp/zverev/$SLURM_JOB_ID/vggsound
     rmdir /tmp/zverev/$SLURM_JOB_ID/vggsound
+    rm -rf $MCMLSCRATCH/datasets/$SLURM_JOB_ID
 }
 
 trap cleanup EXIT
 
 echo "Mounting VGGsound"
-mkdir -p /tmp/zverev/$SLURM_JOB_ID/vggsound
-mkdir -p /tmp/zverev/$SLURM_JOB_ID/cav-mae
+mkdir -p /tmp/akoepke/$SLURM_JOB_ID/vggsound
+mkdir -p /tmp/akoepke/$SLURM_JOB_ID/cav-mae
+mkdir -p $MCMLSCRATCH/datasets/$SLURM_JOB_ID
 
-/usr/bin/squashfuse /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/vggsound.squashfs /tmp/zverev/$SLURM_JOB_ID/vggsound
-/usr/bin/squashfuse /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/cav-mae.squashfs /tmp/zverev/$SLURM_JOB_ID/cav-mae
+rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/vggsound_test.squashfs
+rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/cav-mae-test.squashfs
+
+rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/vggsound_test.squashfs
+rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/cav-mae-test.squashfs
+
+squashfuse $MCMLSCRATCH/datasets/$SLURM_JOB_ID/vggsound_test.squashfs /tmp/akoepke/$SLURM_JOB_ID/vggsound
+squashfuse $MCMLSCRATCH/datasets/$SLURM_JOB_ID/cav-mae-test.squashfs /tmp/akoepke/$SLURM_JOB_ID/cav-mae
 
 # Activate your conda environment (adjust if needed)
 set -x
@@ -49,8 +57,8 @@ fi
 # Run the script on each node, assigning each task to a different GPU
 python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
-  --dataset_path /tmp/zverev/$SLURM_JOB_ID/vggsound \
-  --frames_dataset_path /tmp/zverev/$SLURM_JOB_ID/cav-mae/vggsound \
+  --dataset_path /tmp/akoepke/$SLURM_JOB_ID/vggsound \
+  --frames_dataset_path /tmp/akoepke/$SLURM_JOB_ID/cav-mae/vggsound \
   --video_csv ../../data/test.csv \
   --page $SLURM_ARRAY_TASK_ID \
   --per_page 1000 \
