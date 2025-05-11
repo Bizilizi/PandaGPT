@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name="pandagpt"
-#SBATCH --array=0-16
+#SBATCH --array=0-15
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
