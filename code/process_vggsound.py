@@ -141,8 +141,8 @@ def process_video(
         response = ",".join(all_responses)
     else:
         raise ValueError(f"Invalid prompt mode: {prompt_mode}. Supported modes: 'single', 'multi'")
-
-    # Return the unique set of detected classes.
+    
+    response = response.replace("\n", "\\n")
     return list(set(detected)), response
 
 
