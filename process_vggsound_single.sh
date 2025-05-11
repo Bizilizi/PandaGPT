@@ -16,32 +16,6 @@
  
 nvidia-smi
 
-# Mount squashfs files
-cleanup () {
-    fusermount -u /tmp/askoepke/$SLURM_JOB_ID/vggsound
-    rmdir /tmp/askoepke/$SLURM_JOB_ID/vggsound
-    rm -rf $MCMLSCRATCH/datasets/$SLURM_JOB_ID
-}
-
-trap cleanup EXIT
-
-echo "Mounting VGGsound"
-ls -la /tmp/askoepke
-mkdir -p /tmp/askoepke/$SLURM_JOB_ID/vggsound
-mkdir -p /tmp/askoepke/$SLURM_JOB_ID/cav-mae
-mkdir -p $MCMLSCRATCH/datasets/$SLURM_JOB_ID
-
-echo "Copying VGGsound"
-rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/vggsound_test.squashfs
-rsync -av --progress --ignore-existing /dss/dssmcmlfs01/pn67gu/pn67gu-dss-0000/zverev/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/cav-mae-test.squashfs
-
-echo "Copying VGGsound to job directory"
-rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/vggsound_test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/vggsound_test.squashfs
-rsync -av --progress --ignore-existing $MCMLSCRATCH/datasets/cav-mae-test.squashfs $MCMLSCRATCH/datasets/$SLURM_JOB_ID/cav-mae-test.squashfs
-
-squashfuse $MCMLSCRATCH/datasets/$SLURM_JOB_ID/vggsound_test.squashfs /tmp/askoepke/$SLURM_JOB_ID/vggsound
-squashfuse $MCMLSCRATCH/datasets/$SLURM_JOB_ID/cav-mae-test.squashfs /tmp/askoepke/$SLURM_JOB_ID/cav-mae
-
 # Activate your conda environment (adjust if needed)
 set -x
 
@@ -60,8 +34,8 @@ fi
 # Run the script on each node, assigning each task to a different GPU
 python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
-  --dataset_path /tmp/askoepke/$SLURM_JOB_ID/vggsound \
-  --frames_dataset_path /tmp/askoepke/$SLURM_JOB_ID/cav-mae/vggsound \
+  --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
+  --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/vggsound \
   --video_csv ../../data/test.csv \
   --page $SLURM_ARRAY_TASK_ID \
   --per_page 1000 \
