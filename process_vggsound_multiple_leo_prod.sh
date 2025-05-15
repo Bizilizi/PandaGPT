@@ -29,7 +29,7 @@ echo "This is $modality"
 PROMPT="Do you see or hear \"{cl}\" class in this video? Answer only with yes or no."
 
 
-srun bash -c "python code/process_vggsound.py \
+srun --kill-on-bad-exit=0 bash -c "python code/process_vggsound.py \
     --output_csv ./csv/$modality/predictions.csv \
     --dataset_path /leonardo_work/EUHPC_E03_068/akoepke/vs \
     --frames_dataset_path /leonardo_scratch/large/userexternal/akoepke0/data_tmp/cav-mae/cav-mae-test \
