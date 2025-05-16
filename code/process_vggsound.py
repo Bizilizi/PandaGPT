@@ -229,7 +229,7 @@ def main():
         "--batch_size", type=int, default=2, help="Batch size for processing classes"
     )
     parser.add_argument(
-        "--temperature", type=float, default=0.2, help="Temperature for generation"
+        "--temperature", type=float, default=1.0, help="Temperature for generation"
     )
     parser.add_argument("--top_p", type=float, default=0.9, help="Top P for generation")
     parser.add_argument(

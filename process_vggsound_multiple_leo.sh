@@ -38,6 +38,7 @@ srun bash -c "python code/process_vggsound.py \
     --modality $modality \
     --device cuda:${SLURM_LOCALID} \
     --prompt_mode multi \
-    --prompt \"$PROMPT\"
+    --prompt \"$PROMPT\" \
+    --temperature 1.0
     "
 
