@@ -118,7 +118,7 @@ def process_video(
                 
         response = response.replace("\n", "\\n")
         
-    elif prompt_mode == "multi":
+    elif prompt_mode in ["multi", "gpt"]:
         all_responses = []
         for cl in tqdm(CLASSES, desc="Processing classes", leave=False):
             prompt = prompt.format(cl=cl)

@@ -3,9 +3,9 @@ echo "This is $modality, page $2"
 
 # Set the appropriate prompt based on the modality
 if [ "$modality" = "a" ]; then
-    PROMPT="Classes: {cl}. From the given list of classes, which ones do you hear in this audio? Answer using the exact names of the classes, separated by commas."
+    PROMPT="What actions are being performed in this audio, explain all sounds and actions in the audio? Please provide a short answer."
 else
-    PROMPT="Classes: {cl}. From the given list of classes, which ones do you see or hear in this video? Answer using the exact names of the classes, separated by commas."
+    PROMPT="What actions are being performed in this video, explain all sounds and actions in the video? Please provide a short answer."
 fi
 
 # Run the script on each node, assigning each task to a different GPU
@@ -13,10 +13,10 @@ python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
   --dataset_path /tmp/zverev/vggsound \
   --frames_dataset_path /tmp/zverev/cav-mae/vggsound \
-  --video_csv ../../data/test.csv \
+  --video_csv ../../data/test_sample.csv \
   --page 0 \
   --per_page 10 \
   --modality $modality \
   --device cuda:0 \
-  --prompt_mode single \
+  --prompt_mode gpt \
   --prompt "$PROMPT"
