@@ -98,7 +98,7 @@ def process_video(
     response = ""
     
     # Process detection classes in batches:
-    if prompt_mode == "single":
+    if prompt_mode in ["single", "gpt"]:
         prompt = prompt.format(cl=", ".join(CLASSES))
         response = predict(
             model=model,
@@ -118,7 +118,7 @@ def process_video(
                 
         response = response.replace("\n", "\\n")
         
-    elif prompt_mode in ["multi", "gpt"]:
+    elif prompt_mode=="multi":
         all_responses = []
         for cl in tqdm(CLASSES, desc="Processing classes", leave=False):
             prompt = prompt.format(cl=cl)
