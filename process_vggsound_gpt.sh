@@ -36,9 +36,9 @@ python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
   --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
   --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/ \
-  --video_csv ../../data/test_sample.csv \
+  --video_csv ../../data/test.csv \
   --page $SLURM_ARRAY_TASK_ID \
-  --per_page 100 \
+  --per_page 1000 \
   --modality $modality \
   --device cuda:0 \
   --prompt_mode gpt \
