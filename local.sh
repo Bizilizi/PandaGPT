@@ -11,8 +11,8 @@ fi
 # Run the script on each node, assigning each task to a different GPU
 python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
-  --dataset_path /tmp/zverev/vggsound \
-  --frames_dataset_path /tmp/zverev/cav-mae/vggsound \
+  --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
+  --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/vggsound \
   --video_csv ../../data/test_sample.csv \
   --page 0 \
   --per_page 10 \
