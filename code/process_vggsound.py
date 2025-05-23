@@ -99,7 +99,9 @@ def process_video(
     
     # Process detection classes in batches:
     if prompt_mode in ["single", "gpt"]:
-        prompt = prompt.format(cl=", ".join(CLASSES))
+        if prompt_mode == "single":
+            prompt = prompt.format(cl=", ".join(CLASSES))
+            
         response = predict(
             model=model,
             input=prompt,
