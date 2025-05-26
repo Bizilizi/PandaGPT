@@ -8,7 +8,7 @@
 #SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4
 #SBATCH --qos=mcml
 #SBATCH --mem=96G
-#SBATCH --time=48:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=zverev@in.tum.de
 #SBATCH --output=./logs/slurm-%A_%a.out
@@ -32,7 +32,13 @@ else
 fi
 
 # Run the script on each node, assigning each task to a different GPU
-python code/process_vggsound.py \
+SRUN_ARGS=" \
+    --wait=60 \
+    --kill-on-bad-exit=0 \
+    --jobid $SLURM_JOB_ID \
+    "
+
+srun $SRUN_ARGS bash -c "python code/process_vggsound.py \
   --output_csv ./csv/$modality/predictions.csv \
   --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
   --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/ \
@@ -42,4 +48,5 @@ python code/process_vggsound.py \
   --modality $modality \
   --device cuda:\$SLURM_LOCALID \
   --prompt_mode gpt \
-  --prompt "$PROMPT"
+  --prompt \"$PROMPT\"
+  "
