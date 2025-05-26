@@ -2,12 +2,12 @@
 #SBATCH --job-name="pandagpt"
 #SBATCH --array=0-0
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
+#SBATCH --ntasks=2
 #SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4
 #SBATCH --qos=mcml
-#SBATCH --mem=48G
+#SBATCH --mem=96G
 #SBATCH --time=48:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=zverev@in.tum.de
@@ -37,9 +37,9 @@ python code/process_vggsound.py \
   --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
   --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/ \
   --video_csv ../../data/test.csv \
-  --page $SLURM_ARRAY_TASK_ID \
-  --per_page 1000 \
+  --page \$((\$SLURM_ARRAY_TASK_ID * 2 + \$SLURM_LOCALID)) \
+  --per_page 7750 \
   --modality $modality \
-  --device cuda:0 \
+  --device cuda:\$SLURM_LOCALID \
   --prompt_mode gpt \
   --prompt "$PROMPT"
