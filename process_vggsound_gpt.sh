@@ -1,10 +1,10 @@
 #!/bin/sh
 #SBATCH --job-name="pandagpt"
-#SBATCH --array=0-0
+#SBATCH --array=0-1
 #SBATCH --nodes=1
-#SBATCH --ntasks=2
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #SBATCH --partition=mcml-dgx-a100-40x8,mcml-hgx-a100-80x4
 #SBATCH --qos=mcml
 #SBATCH --mem=96G
@@ -43,10 +43,10 @@ srun $SRUN_ARGS bash -c "python code/process_vggsound.py \
   --dataset_path $MCMLSCRATCH/datasets/vggsound_test \
   --frames_dataset_path $MCMLSCRATCH/datasets/cav-mae-test/ \
   --video_csv ../../data/test.csv \
-  --page \$((\$SLURM_ARRAY_TASK_ID * 2 + \$SLURM_LOCALID)) \
+  --page $SLURM_ARRAY_TASK_ID \
   --per_page 7750 \
   --modality $modality \
-  --device cuda:\$SLURM_LOCALID \
+  --device cuda:0 \
   --prompt_mode gpt \
   --prompt \"$PROMPT\"
   "
